@@ -1,0 +1,45 @@
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.Scanner;
+
+public class RockPaperScissorsX {
+    public static void main(String[] args){
+        List<Integer> computerMoves = Arrays.asList(1, 2, 3); // Used to generate random number.
+        Scanner input = new Scanner(System.in);
+
+        // Infinite loop until broken by exit case.
+        loop : while(true){
+            System.out.print("Rock, Paper, Scissors, Exit >>> ");
+            String move = input.nextLine().toLowerCase();
+            Collections.shuffle(computerMoves); // Shuffles list to achieve random numbers.
+
+            switch(move){
+                case "rock" : determineWinner(computerMoves.get(0), "Tie", "You Lose", "You Win"); break; // if move is rock
+                case "paper" : determineWinner(computerMoves.get(0), "You Lose", "You Win", "Tie"); break; // if move is paper
+                case "scissors" : determineWinner(computerMoves.get(0), "You Lose", "You Win", "Tie"); break; // if move is scissors
+                case "exit" : break loop; // if move is exit
+                case "" : continue; // if move is blank
+                default : System.out.println("Invalid Input"); // if move is none of the above
+            }
+        }
+    }
+
+    // Used in the interest of code re-usability
+    private static void determineWinner(int computerMove, String m1, String m2, String m3){
+        switch (computerMove) {
+            case 1:
+                // computer move is rock
+                System.out.printf("Computer Chose Rock, %s%n", m1);
+                break;
+            case 2:
+                // computer move is paper
+                System.out.printf("Computer Chose Paper, %s%n", m2);
+                break;
+            default:
+                // computer move is scissors
+                System.out.printf("Computer Chose Scissors, %s%n", m3);
+                break;
+        }
+    }
+}
