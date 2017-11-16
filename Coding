@@ -38,15 +38,16 @@ public class RPC {
     }
 
     public static boolean playAgain() {
-        System.out.println("Play again?(y/n)");
+        System.out.println("Play again?(Y/N)");
         String input = sc.nextLine();
-        if (input.toLowerCase().equals("y")) {
-            return true;
-        } else if (input.toLowerCase().equals("n")) {
-            return false;
-        } else {
-            System.out.println("Invalid Input");
-            return playAgain();
+        switch (input.toUpperCase()) {
+            case "Y":
+                return true;
+            case "N":
+                return false;
+            default:
+                System.out.println("Invalid Input");
+                return playAgain();
         }
 
     }
