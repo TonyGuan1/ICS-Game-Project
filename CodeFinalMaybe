@@ -1,0 +1,117 @@
+package javax;
+
+import java.util.Scanner;
+import java.util.Random;
+
+public class NewMain {
+
+    public static String getChoice(int number) {
+
+        String choice;
+
+        switch (number) {
+            case 1:
+                choice = "rock";
+                break;
+            case 2:
+                choice = "paper";
+                break;
+            case 3:
+                choice = "scissors";
+                break;
+            default:
+                choice = null;
+        }
+
+        return choice;
+    }
+
+    public static String computerChoice() {
+
+        // Create a Random object.
+        Random rand = new Random();
+
+        // Generate a random number in the range of
+        // 1 through 3.
+        int num = rand.nextInt(3) + 1;
+
+        // Return the computer's choice.
+        return getChoice(num);
+    }
+
+    public static String userChoice(Scanner keyboard) {
+
+        // Ask the user for input
+        System.out.print("Enter 1 - rock, 2 - paper, or 3 - scissors: ");
+
+        int userChoice = keyboard.nextInt();
+
+        String play = getChoice(userChoice);
+
+        // Validate the choice.
+        while (play == null) {
+
+            System.out.print("Enter 1 - rock, 2 - paper, or 3 - scissors: ");
+            userChoice = keyboard.nextInt();
+            play = getChoice(userChoice);
+        }
+
+        // Return the user's choice.
+        return play;
+    }
+
+    public static String determineWinner(String computerChoice, String userChoice) {
+        String output;
+        output = "The computer's choice was " + computerChoice + ".\n";
+        output += "The user's choice was " + userChoice + ".\n\n";
+        // check logic
+        if (userChoice.equalsIgnoreCase("rock")) {
+            if (computerChoice.equalsIgnoreCase("scissors")) {
+                output += "Rock beats scissors.\nThe user wins!";
+            } else if (computerChoice.equalsIgnoreCase("paper")) {
+                output += "Paper beats rock.\nThe computer wins!";
+            } else {
+                output += "The game is tied!\nPlay again...";
+            }
+        } else if (userChoice.equalsIgnoreCase("paper")) {
+            if (computerChoice.equalsIgnoreCase("scissors")) {
+                output += "Scissors beats paper.\nThe computer wins!";
+            } else if (computerChoice.equalsIgnoreCase("rock")) {
+                output += "Paper beats rock.\nThe user wins!";
+            } else {
+                output += "The game is tied!\nPlay again...";
+            }
+        } else if (userChoice.equalsIgnoreCase("scissors")) {
+            if (computerChoice.equalsIgnoreCase("rock")) {
+                output += "Rock beats scissors.\nThe computer wins!";
+            } else if (computerChoice.equalsIgnoreCase("paper")) {
+                output += "Scissors beats paper.\nThe user wins!";
+            } else {
+                output += "The game is tied!\nPlay again...";
+            }
+        }
+
+        return output;
+    }
+
+    public static void main(String[] args) {
+        String computer;
+        String user;
+        Scanner keyboard = new Scanner(System.in);
+
+        // Play the game as long as there is a tie.
+        do {
+            // Get the computer's choice.
+            computer = computerChoice();
+
+            // Get the user's choice.
+            user = userChoice(keyboard);
+
+            // Determine the winner.
+            String output = determineWinner(computer, user);
+            System.out.println(output);
+
+        } while (user.equalsIgnoreCase(computer));
+    }
+
+}
