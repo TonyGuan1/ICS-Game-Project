@@ -104,7 +104,7 @@ public class RockPaperScissors {
                 System.out.println(userMove + " beats " + computerMove + ". You won!");
 
                 break;
-            case 2: // Computer wins
+            case -1: // Computer wins
                 System.out.println(computerMove + " beats " + userMove + ". You lost.");
 
                 break;
