@@ -7,6 +7,10 @@ public class RockPaperScissors {
 
     private User user;
     private Computer computer; //"computer" is just an identifier
+    
+    int tie = 0;
+    int wins = 0;
+    int round = 0;
 
     private enum Move {
         ROCK, PAPER, SCISSORS;
@@ -92,19 +96,21 @@ public class RockPaperScissors {
         // Get moves
         RockPaperScissors.Move userMove = user.getMove();
         RockPaperScissors.Move computerMove = computer.getMove();
+        round++;
         System.out.println("\nYou played " + userMove + ".");
         System.out.println("Computer played " + computerMove + ".\n");
         // Compare moves and determine winner
         int compareMoves = userMove.compareMoves(computerMove);
         switch (compareMoves) {
             case 0: // Tie
+                tie++;
                 System.out.println("Tie!");
                 break;
             case 1: // User wins
+                wins++;
                 System.out.println(userMove + " beats " + computerMove + ". You won!");
-
                 break;
-            case -1: // Computer wins
+            case 2: // Computer wins
                 System.out.println(computerMove + " beats " + userMove + ". You lost.");
 
                 break;
@@ -114,7 +120,10 @@ public class RockPaperScissors {
             System.out.println();
             startGame();
         } else {
-            System.out.println("Good Bye");
+            System.out.println(new String(new char[56]).replace("\0", "_"));
+            System.out.println(String.format("|%-10s|%-10s|%-10s|%-10s|%-10s|","Wins","Losses","Ties","Games","% Won"));
+            System.out.println(String.format("|%-10d|%-10d|%-10d|%-10d|%-10.1f|",wins,(round-(wins+tie)),tie,round,((float)wins/(float)round)*100));
+            System.out.println(new String(new char[55]).replace("\0", " ̅"));
         }
     }
 
