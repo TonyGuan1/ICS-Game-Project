@@ -1,18 +1,18 @@
-package javaapplication;
+package javaapplication2;
 
 import java.util.Random;
 import java.util.Scanner;
 
 public class RockPaperScissors {
 
-    private User user;
-    private Computer computer; //"computer" is just an identifier
-    
+    private final User user;
+    private final Computer computer;
+
     int tie = 0;
     int wins = 0;
     int round = 0;
 
-    private enum Move {
+    private enum Move { //Rock is highest, followed by Paper, lowest Scissors
         ROCK, PAPER, SCISSORS;
 
         public int compareMoves(Move otherMove) {
@@ -23,18 +23,18 @@ public class RockPaperScissors {
 
             switch (this) {
                 case ROCK:
-                    return (otherMove == SCISSORS ? 1 : -1);
+                    return (otherMove == SCISSORS ? 1 : 2); //Positive 1 is for user win
                 case PAPER:
-                    return (otherMove == ROCK ? 1 : -1);
+                    return (otherMove == ROCK ? 1 : 2);//Negative 1 is for computer win
                 case SCISSORS:
-                    return (otherMove == PAPER ? 1 : -1);
+                    return (otherMove == PAPER ? 1 : 2);
             }
-            // Should never reach here
+            
             return 0;
         }
     }
 
-    private class User {
+    private class User { //User section of the game
 
         private final Scanner inputScanner;
 
@@ -43,16 +43,15 @@ public class RockPaperScissors {
         }
 
         public RockPaperScissors.Move getMove() {
-            // Prompt the user
-            System.out.println("Pick one.");
+
+            System.out.println("Pick one.");  // Prompt the user
             System.out.print("Rock, Paper, or Scissors? ");
 
-            // Get the user input
-            String userInput = inputScanner.nextLine();
+            String userInput = inputScanner.nextLine();// Get the user input
             userInput = userInput.toUpperCase(); //Change input to upper
             char firstLetter = userInput.charAt(0);
-            if (firstLetter == 'R' || firstLetter == 'P' || firstLetter == 'S') {
-                // User has entered a valid input
+            if (firstLetter == 'R' || firstLetter == 'P' || firstLetter == 'S') {// User has entered a valid input
+                
                 switch (firstLetter) {
                     case 'R':
                         return RockPaperScissors.Move.ROCK;
@@ -62,26 +61,26 @@ public class RockPaperScissors {
                         return RockPaperScissors.Move.SCISSORS;
                 }
             }
-            // User has not entered a valid input. Prompt again.
-            System.out.println("Invalid");
-            return getMove();
             
+            System.out.println("Invalid, try again");// User has not entered a valid input. Prompt again.
+            return getMove();
+
         }
 
         public boolean playAgain() {
             System.out.print("Do you want to play again? ");
             String userInput = inputScanner.nextLine();
             userInput = userInput.toUpperCase();
-            return userInput.charAt(0) == 'Y';
+            return userInput.charAt(0) == 'Y'; //First letter only
         }
     }
 
-    public RockPaperScissors() {
+    public RockPaperScissors() { //Sets variables
         user = new User();
         computer = new Computer();
     }
 
-    private class Computer {
+    private class Computer { //Computer Section
 
         public RockPaperScissors.Move getMove() {
             RockPaperScissors.Move[] moves = RockPaperScissors.Move.values();
@@ -91,12 +90,12 @@ public class RockPaperScissors {
         }
     }
 
-    public void startGame() {
-        System.out.println("Welcome to Rock, Paper, Scissors!!!");
+    public void startGame() {//Section for starting game
+        System.out.println("Welcome to Rock, Paper, Scissors!");
         // Get moves
         RockPaperScissors.Move userMove = user.getMove();
         RockPaperScissors.Move computerMove = computer.getMove();
-        round++;
+        round++;//Adds to round counter
         System.out.println("\nYou played " + userMove + ".");
         System.out.println("Computer played " + computerMove + ".\n");
         // Compare moves and determine winner
@@ -115,14 +114,14 @@ public class RockPaperScissors {
 
                 break;
         }
-        // Ask the user to play again
-        if (user.playAgain()) {
+
+        if (user.playAgain()) {// Ask the user to play again
             System.out.println();
             startGame();
-        } else {
+        } else { //Prints out table
             System.out.println(new String(new char[56]).replace("\0", "_"));
-            System.out.println(String.format("|%-10s|%-10s|%-10s|%-10s|%-10s|","Wins","Losses","Ties","Games","% Won"));
-            System.out.println(String.format("|%-10d|%-10d|%-10d|%-10d|%-10.1f|",wins,(round-(wins+tie)),tie,round,((float)wins/(float)round)*100));
+            System.out.println(String.format("|%-10s|%-10s|%-10s|%-10s|%-10s|", "Wins", "Losses", "Ties", "Games", "% Won"));
+            System.out.println(String.format("|%-10d|%-10d|%-10d|%-10d|%-10.1f|", wins, (round - (wins + tie)), tie, round, ((float) wins / (float) round) * 100));
             System.out.println(new String(new char[55]).replace("\0", " ̅"));
         }
     }
