@@ -119,12 +119,17 @@ public class RockPaperScissors {
             System.out.println();
             startGame();
         } else { //Prints out table
-            System.out.println(new String(new char[56]).replace("\0", "_"));
-            System.out.println(String.format("|%-10s|%-10s|%-10s|%-10s|%-10s|", "Wins", "Losses", "Ties", "Games", "% Won"));
-            System.out.println(String.format("|%-10d|%-10d|%-10d|%-10d|%-10.1f|", wins, (round - (wins + tie)), tie, round, ((float) wins / (float) round) * 100));
-            System.out.println(new String(new char[55]).replace("\0", " ̅"));
+            System.out.println("hello");
+            table(wins, tie, round);
+            
         }
     }
+    public void table(int Wins,int Ties,int Rounds){
+            System.out.println(new String(new char[56]).replace("\0", "_"));
+            System.out.println(String.format("|%-10s|%-10s|%-10s|%-10s|%-10s|", "Wins", "Losses", "Ties", "Games", "% Won"));
+            System.out.println(String.format("|%-10d|%-10d|%-10d|%-10d|%-10.1f|", Wins, (Rounds - (Wins + Ties)), Ties, Rounds, ((float) Wins / (float) Rounds) * 100));
+            System.out.println(new String(new char[55]).replace("\0", " ̅")); 
+        }
 
     public static void main(String[] args) {
         RockPaperScissors games = new RockPaperScissors();
