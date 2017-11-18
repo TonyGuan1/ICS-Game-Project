@@ -119,7 +119,6 @@ public class RockPaperScissors {
             System.out.println();
             startGame();
         } else { //Prints out table
-            System.out.println("hello");
             table(wins, tie, round);
             
         }
