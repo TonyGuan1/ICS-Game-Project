@@ -1,18 +1,23 @@
 package javaapplication2;
 
+/* Rock,Paper,Scissors game created by
+Tony, Athavan, Shashaank and Arman
+*/
+
 import java.util.Random;
 import java.util.Scanner;
 
 public class RockPaperScissors {
 
-    private final User user;
-    private final Computer computer;
-
+    private final Person person;
+    private final AI ai;
+    
+    //Variables for Table
     int tie = 0;
     int wins = 0;
     int round = 0;
 
-    private enum Move { //Rock is highest, followed by Paper, lowest Scissors
+    private enum Move { //Rock is highest, followed by Paper, and Scissors
         ROCK, PAPER, SCISSORS;
 
         public int compareMoves(Move otherMove) {
@@ -21,24 +26,24 @@ public class RockPaperScissors {
                 return 0;
             }
 
-            switch (this) {
+            switch (this) {//Compares User and Computer
                 case ROCK:
-                    return (otherMove == SCISSORS ? 1 : 2); //Positive 1 is for user win
+                    return (otherMove == SCISSORS ? 1 : 2); // 1 is for user win
                 case PAPER:
-                    return (otherMove == ROCK ? 1 : 2);//Negative 1 is for computer win
+                    return (otherMove == ROCK ? 1 : 2);//2 is for computer win
                 case SCISSORS:
                     return (otherMove == PAPER ? 1 : 2);
             }
-            
+
             return 0;
         }
     }
 
-    private class User { //User section of the game
+    private class Person { //User section of the game
 
         private final Scanner inputScanner;
 
-        public User() {
+        public Person() {
             inputScanner = new Scanner(System.in);
         }
 
@@ -51,7 +56,7 @@ public class RockPaperScissors {
             userInput = userInput.toUpperCase(); //Change input to upper
             char firstLetter = userInput.charAt(0);
             if (firstLetter == 'R' || firstLetter == 'P' || firstLetter == 'S') {// User has entered a valid input
-                
+
                 switch (firstLetter) {
                     case 'R':
                         return RockPaperScissors.Move.ROCK;
@@ -61,14 +66,14 @@ public class RockPaperScissors {
                         return RockPaperScissors.Move.SCISSORS;
                 }
             }
-            
+
             System.out.println("Invalid, try again");// User has not entered a valid input. Prompt again.
             return getMove();
 
         }
 
         public boolean playAgain() {
-            System.out.print("Do you want to play again? ");
+            System.out.print("Play Again Y/N ? ");
             String userInput = inputScanner.nextLine();
             userInput = userInput.toUpperCase();
             return userInput.charAt(0) == 'Y'; //First letter only
@@ -76,11 +81,11 @@ public class RockPaperScissors {
     }
 
     public RockPaperScissors() { //Sets variables
-        user = new User();
-        computer = new Computer();
+        person = new Person();
+        ai = new AI();
     }
 
-    private class Computer { //Computer Section
+    private class AI { //Computer Section
 
         public RockPaperScissors.Move getMove() {
             RockPaperScissors.Move[] moves = RockPaperScissors.Move.values();
@@ -90,11 +95,11 @@ public class RockPaperScissors {
         }
     }
 
-    public void startGame() {//Section for starting game
+    public void beginGame() {//Section for starting game
         System.out.println("Welcome to Rock, Paper, Scissors!");
         // Get moves
-        RockPaperScissors.Move userMove = user.getMove();
-        RockPaperScissors.Move computerMove = computer.getMove();
+        RockPaperScissors.Move userMove = person.getMove();
+        RockPaperScissors.Move computerMove = ai.getMove();
         round++;//Adds to round counter
         System.out.println("\nYou played " + userMove + ".");
         System.out.println("Computer played " + computerMove + ".\n");
@@ -111,27 +116,22 @@ public class RockPaperScissors {
                 break;
             case 2: // Computer wins
                 System.out.println(computerMove + " beats " + userMove + ". You lost.");
-
                 break;
         }
 
-        if (user.playAgain()) {// Ask the user to play again
+        if (person.playAgain()) {// Ask the user to play again
             System.out.println();
-            startGame();
+            beginGame();
         } else { //Prints out table
-            table(wins, tie, round);
-            
-        }
-    }
-    public void table(int Wins,int Ties,int Rounds){
             System.out.println(new String(new char[56]).replace("\0", "_"));
             System.out.println(String.format("|%-10s|%-10s|%-10s|%-10s|%-10s|", "Wins", "Losses", "Ties", "Games", "% Won"));
-            System.out.println(String.format("|%-10d|%-10d|%-10d|%-10d|%-10.1f|", Wins, (Rounds - (Wins + Ties)), Ties, Rounds, ((float) Wins / (float) Rounds) * 100));
-            System.out.println(new String(new char[55]).replace("\0", " ̅")); 
+            System.out.println(String.format("|%-10d|%-10d|%-10d|%-10d|%-10.1f|", wins, (round - (wins + tie)), tie, round, ((float) wins / (float) round) * 100));
+            System.out.println(new String(new char[55]).replace("\0", " ̅"));
         }
+    }
 
     public static void main(String[] args) {
-        RockPaperScissors games = new RockPaperScissors();
-        games.startGame(); //Calls method and begins game
+        RockPaperScissors game = new RockPaperScissors();
+        game.beginGame(); //Calls method and begins game
     }
 }
