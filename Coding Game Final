@@ -2,8 +2,7 @@ package javaapplication2;
 
 /* Rock,Paper,Scissors game created by
 Tony, Athavan, Shashaank and Arman
-*/
-
+ */
 import java.util.Random;
 import java.util.Scanner;
 
@@ -11,7 +10,7 @@ public class RockPaperScissors {
 
     private final Person person;
     private final AI ai;
-    
+
     //Variables for Table
     int tie = 0;
     int wins = 0;
@@ -53,30 +52,40 @@ public class RockPaperScissors {
             System.out.print("Rock, Paper, or Scissors? ");
 
             String userInput = inputScanner.nextLine();// Get the user input
-            userInput = userInput.toUpperCase(); //Change input to upper
-            char firstLetter = userInput.charAt(0);
-            if (firstLetter == 'R' || firstLetter == 'P' || firstLetter == 'S') {// User has entered a valid input
+            if (userInput.isEmpty()) {
+                System.out.println("Invalid, try again");// User has not entered a valid input. Prompt again.
+                return getMove();
+            } else {
+                userInput = userInput.toUpperCase(); //Change input to upper
+                char firstLetter = userInput.charAt(0);
+                if (firstLetter == 'R' || firstLetter == 'P' || firstLetter == 'S') {// User has entered a valid input
 
-                switch (firstLetter) {
-                    case 'R':
-                        return RockPaperScissors.Move.ROCK;
-                    case 'P':
-                        return RockPaperScissors.Move.PAPER;
-                    case 'S':
-                        return RockPaperScissors.Move.SCISSORS;
+                    switch (firstLetter) {
+                        case 'R':
+                            return RockPaperScissors.Move.ROCK;
+                        case 'P':
+                            return RockPaperScissors.Move.PAPER;
+                        case 'S':
+                            return RockPaperScissors.Move.SCISSORS;
+                    }
                 }
             }
 
-            System.out.println("Invalid, try again");// User has not entered a valid input. Prompt again.
             return getMove();
-
         }
 
         public boolean playAgain() {
             System.out.print("Play Again Y/N ? ");
             String userInput = inputScanner.nextLine();
-            userInput = userInput.toUpperCase();
-            return userInput.charAt(0) == 'Y'; //First letter only
+            if (userInput.isEmpty()) {
+                System.out.println("Invalid, try again");// User has not entered a valid input. Prompt again.
+                playAgain();
+            } else {
+                userInput = userInput.toUpperCase();
+                return userInput.charAt(0) == 'Y';
+            }
+            //First letter only
+            return false;
         }
     }
 
